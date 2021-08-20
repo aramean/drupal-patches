@@ -1,0 +1,54 @@
+diff --git a/css/sitewide_alert.css b/css/sitewide_alert.css
+index 7c18c79..e69de29 100644
+--- a/css/sitewide_alert.css
++++ b/css/sitewide_alert.css
+@@ -1,14 +0,0 @@
+-.sitewide-alert {
+-  background-color: #f5f5f5;
+-  padding: 5px;
+-}
+-
+-.sitewide-alert .close {
+-  float: right;
+-}
+-
+-.sitewide-alert__message,
+-.sitewide-alert .field--name-message {
+-  /* Prevent the message from pushing down the close icon. */
+-  display: inline-block;
+-}
+diff --git a/sitewide_alert.module b/sitewide_alert.module
+index d485b06..1e1eccc 100644
+--- a/sitewide_alert.module
++++ b/sitewide_alert.module
+@@ -22,30 +22,3 @@ function sitewide_alert_help($route_name, RouteMatchInterface $route_match) {
+     default:
+   }
+ }
+-
+-/**
+- * Implements hook_page_top().
+- */
+-function sitewide_alert_page_top(array &$page_top) {
+-
+-  // Do not show alert on admin pages if we are not configured to do so.
+-  if (\Drupal::service('router.admin_context')->isAdminRoute() &&
+-    !\Drupal::config('sitewide_alert.settings')->get('show_on_admin')) {
+-    return;
+-  }
+-
+-  $page_top['sitewide_alert'] = [
+-    '#markup' => '<div id="sitewide-alert"></div>',
+-    '#attached' => [
+-      'library' => [
+-        'sitewide_alert/init',
+-      ],
+-      'drupalSettings' => [
+-        'sitewideAlert' => [
+-          'refreshInterval' => (\Drupal::config('sitewide_alert.settings')->get('refresh_interval') ?? 15) * 1000,
+-          'automaticRefresh' => (\Drupal::config('sitewide_alert.settings')->get('automatic_refresh') == 1),
+-        ],
+-      ],
+-    ],
+-  ];
+-}
